@@ -9,7 +9,7 @@ const productsService = require('../../../src/services/productsService');
 const productsController = require('../../../src/controllers/productsController');
 const { listAllProducts } = require('../mocks/productsMock');
 
-describe('Testes da camada services do products', function () {
+describe('Testes da camada controller do products', function () {
   const req = {};
   const res = {};
   beforeEach(function () {
@@ -21,7 +21,7 @@ describe('Testes da camada services do products', function () {
     sinon.restore();
   });
   it('Teste da Função getAll, receber um array com todos os produtos', async function () {
-    sinon.stub(productsService, 'getAll').resolves([listAllProducts]);
+    sinon.stub(productsService, 'getAll').resolves(listAllProducts);
 
     await productsController.getAll(req, res);
 
