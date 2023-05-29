@@ -20,10 +20,9 @@ describe('Testes da camada model do sales', function () {
   });
   
   it('Teste da Função getById, receber uma venda solicitado através do Id', async function () {
-    sinon.stub(connection, 'execute').resolves([[listAllSales[0]]]);
+    sinon.stub(connection, 'execute').resolves([listAllSales[2]]);
 
-    const result = await salesModel.getById(1);
-
-    expect(result).to.be.deep.equal(listAllSales[0]);
+    const result = await salesModel.getById(2);
+    expect(result).to.be.deep.equal(listAllSales[2]);
   });
 });

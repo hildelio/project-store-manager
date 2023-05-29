@@ -28,10 +28,10 @@ describe('Testes da camada services do sales', function () {
   });
   
   it('Teste da Função getById, Id existente', async function () {
-    sinon.stub(salesModel, 'getById').resolves(listAllSales[0]);
+    sinon.stub(salesModel, 'getById').resolves([listAllSales[2]]);
 
-    const result = await salesService.getById(1);
+    const result = await salesService.getById(2);
 
-    expect(result).to.be.deep.equal(listAllSales[0]);
+    expect(result).to.be.deep.equal([listAllSales[2]]);
   });
 });
