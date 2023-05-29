@@ -15,6 +15,7 @@ FROM
     sales AS s ON sp.sale_id = s.id
 ORDER BY sale_id , product_id`,
   );
+  console.log(result);
   return result;
 };
 
