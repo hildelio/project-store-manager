@@ -17,12 +17,6 @@ const getById = async (req, res) => {
 const registerProducts = async (req, res) => {
   const { name } = req.body;
   const result = await productsService.registerProducts(name);
-  if (!name) {
-    return res.status(400).json(result);
-  }
-  if (result.message) {
-    return res.status(422).json(result);
-  }
   return res.status(201).json(result);
 };
 
