@@ -14,4 +14,14 @@ const getById = async (req, res) => {
   return res.status(200).json(result);
 };
 
-module.exports = { getAll, getById };
+const registerSales = async (req, res) => {
+  const sales = req.body;
+  const result = await salesService.registerSales(sales);
+  const { message } = result;
+  if (message) {
+    return res.status(404).json({ message });
+  }
+  return res.status(201).json(result);
+};
+
+module.exports = { getAll, getById, registerSales };

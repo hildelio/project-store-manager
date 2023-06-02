@@ -7,7 +7,7 @@ chai.use(sinonChai);
 const { expect } = chai;
 const productsService = require('../../../src/services/productsService');
 const productsController = require('../../../src/controllers/productsController');
-const { listAllProducts } = require('../mocks/productsMock');
+const { listAllProductsMock, registerProductMock } = require('../mocks/productsMock');
 
 describe('Testes da camada controller do products', function () {
   const req = {};
@@ -21,12 +21,12 @@ describe('Testes da camada controller do products', function () {
     sinon.restore();
   });
   it('Teste da Função getAll, receber um array com todos os produtos', async function () {
-    sinon.stub(productsService, 'getAll').resolves(listAllProducts);
+    sinon.stub(productsService, 'getAll').resolves(listAllProductsMock);
 
     await productsController.getAll(req, res);
 
     expect(res.status).to.be.calledWith(200);
-    expect(res.json).to.be.calledWithExactly(listAllProducts);
+    expect(res.json).to.be.calledWithExactly(listAllProductsMock);
   });
 
   it('Teste da Função getById, Id inexistente', async function () {
@@ -41,11 +41,21 @@ describe('Testes da camada controller do products', function () {
   
   it('Teste da Função getById, Id existente', async function () {
     req.params = { id: 1 };
-    sinon.stub(productsService, 'getById').resolves(listAllProducts[0]);
+    sinon.stub(productsService, 'getById').resolves(listAllProductsMock[0]);
 
     await productsController.getById(req, res);
 
     expect(res.status).to.be.calledWith(200);
-    expect(res.json).to.be.calledWithExactly(listAllProducts[0]);
+    expect(res.json).to.be.calledWithExactly(listAllProductsMock[0]);
+  });
+  
+  it('Teste da Função registerProducts', async function () {
+    req.body = { name: 'Alice' };
+    sinon.stub(productsService, 'registerProducts').resolves(registerProductMock);
+
+    await productsController.registerProducts(req, res);
+
+    expect(res.status).to.be.calledWith(201);
+    expect(res.json).to.be.calledWithExactly(registerProductMock);
   });
 });

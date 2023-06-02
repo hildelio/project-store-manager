@@ -1,4 +1,4 @@
-const listAllProducts = [
+const listAllProductsMock = [
   {
     id: 1,
     name: 'Martelo de Thor',
@@ -12,4 +12,9 @@ const listAllProducts = [
     name: 'Escudo do Capitão América',
   },
 ];
-module.exports = { listAllProducts };
+
+const registerProductMock = {
+  id: 4,
+  name: 'Alice',
+};
+module.exports = { listAllProductsMock, registerProductMock };

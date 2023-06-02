@@ -35,4 +35,20 @@ ORDER BY sale_id , product_id`, [id]);
   return result;
 };
 
-module.exports = { getAll, getById };
+const registerSalesId = async () => {
+  const [{ insertId }] = await connection.execute(
+    'INSERT INTO sales (date) VALUE (DATE(NOW()))',
+  );
+  return insertId;
+};
+
+const registerSales = async (insertId, productId, quantity) => {
+  await connection.execute(
+    `INSERT INTO sales_products
+    (sale_id, product_id, quantity) VALUE (?, ?, ?)`,
+     [insertId, productId, quantity],
+     );
+  return { productId, quantity };
+};
+
+module.exports = { getAll, getById, registerSalesId, registerSales };

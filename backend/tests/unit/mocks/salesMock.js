@@ -1,4 +1,4 @@
-const listAllSales = [
+const listAllSalesMock = [
   {
     saleId: 1,
     date: '2023-05-29T14:04:00.000Z',
@@ -19,4 +19,25 @@ const listAllSales = [
   },
 ];
 
-module.exports = { listAllSales };
+const registerSalesMock = [
+  {
+    productId: 1,
+    quantity: 5,
+  },
+  {
+    productId: 2,
+    quantity: 5,
+  },
+];
+
+const error404RegisterSalesMock = [
+  {
+    productId: 18,
+    quantity: 5,
+  },
+  {
+    productId: 2,
+    quantity: 5,
+  },
+];
+module.exports = { listAllSalesMock, registerSalesMock, error404RegisterSalesMock };

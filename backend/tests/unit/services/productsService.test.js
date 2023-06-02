@@ -4,7 +4,7 @@ const sinon = require('sinon');
 const { expect } = chai;
 const productsModel = require('../../../src/models/productsModel');
 const productsService = require('../../../src/services/productsService');
-const { listAllProducts } = require('../mocks/productsMock');
+const { listAllProductsMock, registerProductMock } = require('../mocks/productsMock');
 
 describe('Testes da camada services do products', function () {
   afterEach(function () {
@@ -12,11 +12,11 @@ describe('Testes da camada services do products', function () {
   });
   
   it('Teste da Função getAll, receber um array com todos os produtos', async function () {
-    sinon.stub(productsModel, 'getAll').resolves(listAllProducts);
+    sinon.stub(productsModel, 'getAll').resolves(listAllProductsMock);
 
     const result = await productsService.getAll();
 
-    expect(result).to.be.deep.equal(listAllProducts);
+    expect(result).to.be.deep.equal(listAllProductsMock);
   });
   
   it('Teste da Função getById, Id inexistente', async function () {
@@ -28,10 +28,19 @@ describe('Testes da camada services do products', function () {
   });
   
   it('Teste da Função getById, Id existente', async function () {
-    sinon.stub(productsModel, 'getById').resolves(listAllProducts[0]);
+    sinon.stub(productsModel, 'getById').resolves(listAllProductsMock[0]);
 
     const result = await productsService.getById(1);
 
-    expect(result).to.be.deep.equal(listAllProducts[0]);
+    expect(result).to.be.deep.equal(listAllProductsMock[0]);
+  });
+
+  it('Teste da Função registerProducts', async function () {
+    sinon.stub(productsModel, 'registerProducts').resolves(4);
+    sinon.stub(productsModel, 'getById').resolves(registerProductMock);
+
+    const result = await productsService.registerProducts({ name: 'Alice' });
+
+    expect(result).to.be.deep.equal(registerProductMock);
   });
 });
