@@ -40,4 +40,17 @@ const error404RegisterSalesMock = [
     quantity: 5,
   },
 ];
-module.exports = { listAllSalesMock, registerSalesMock, error404RegisterSalesMock };
+
+const salesId1Mock = [
+  {
+    date: '2023-06-03T14:27:27.000Z',
+    productId: 1,
+    quantity: 5,
+  },
+  {
+    date: '2023-06-03T14:27:27.000Z',
+    productId: 2,
+    quantity: 10,
+  },
+];
+module.exports = { listAllSalesMock, registerSalesMock, error404RegisterSalesMock, salesId1Mock };

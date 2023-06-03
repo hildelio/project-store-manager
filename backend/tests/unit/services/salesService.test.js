@@ -7,7 +7,7 @@ const productsModel = require('../../../src/models/productsModel');
 
 const salesService = require('../../../src/services/salesService');
 const { listAllSalesMock } = require('../mocks/salesMock');
-const { listAllProductsMock } = require('../mocks/productsMock');
+const { listAllProductsMock, ProductNotFoundMock } = require('../mocks/productsMock');
 
 describe('Testes da camada services do sales', function () {
   afterEach(function () {
@@ -38,7 +38,15 @@ describe('Testes da camada services do sales', function () {
     expect(result).to.be.deep.equal([listAllSalesMock[2]]);
   });
 
-  it('Teste da Função registerSales', async function () {
+  it('Teste da Função registerSales, id inexistente', async function () {
+    sinon.stub(productsModel, 'getAll').resolves(listAllProductsMock);
+
+    const result = await salesService.registerSales([{ productId: 9999, quantity: 5 }]); 
+
+    expect(result).to.be.deep.equal(ProductNotFoundMock);
+  });
+
+  it('Teste da Função registerSales, id existente', async function () {
     sinon.stub(productsModel, 'getAll').resolves(listAllProductsMock);
     sinon.stub(salesModel, 'registerSalesId').resolves(4);
     sinon.stub(salesModel, 'registerSales').resolves({ productId: 1, quantity: 5 });

@@ -4,7 +4,11 @@ const sinon = require('sinon');
 const { expect } = chai;
 const productsModel = require('../../../src/models/productsModel');
 const productsService = require('../../../src/services/productsService');
-const { listAllProductsMock, registerProductMock } = require('../mocks/productsMock');
+const {
+  listAllProductsMock,
+  registerProductMock,
+  updatedProductMock, 
+  ProductNotFoundMock } = require('../mocks/productsMock');
 
 describe('Testes da camada services do products', function () {
   afterEach(function () {
@@ -39,8 +43,45 @@ describe('Testes da camada services do products', function () {
     sinon.stub(productsModel, 'registerProducts').resolves(4);
     sinon.stub(productsModel, 'getById').resolves(registerProductMock);
 
-    const result = await productsService.registerProducts({ name: 'Alice' });
+    const result = await productsService.registerProducts(registerProductMock);
 
     expect(result).to.be.deep.equal(registerProductMock);
+  });
+
+  it('Teste da Função updateProducts, id inexistente', async function () {
+    sinon.stub(productsModel, 'getAll').resolves(listAllProductsMock);
+
+    const result = await productsService.updateProducts(99999, { name: 'Alice' });
+
+    expect(result).to.be.deep.equal(ProductNotFoundMock);
+  });
+  
+  it('Teste da Função updateProducts, id existente', async function () {
+    sinon.stub(productsModel, 'getAll').resolves(listAllProductsMock);
+    sinon.stub(productsModel, 'updateProducts').resolves();
+    sinon.stub(productsModel, 'getById').resolves(updatedProductMock);
+    
+    await productsService.updateProducts(1, { name: 'Alice' });
+
+    const result = await productsModel.getById(1);
+
+    expect(result).to.be.deep.equal(updatedProductMock);
+  });
+
+  it('Teste da Função deleteProducts, id inexistente', async function () {
+    sinon.stub(productsModel, 'getAll').resolves(listAllProductsMock);
+
+    const result = await productsService.deleteProducts(99999, { name: 'Alice' });
+
+    expect(result).to.be.deep.equal(ProductNotFoundMock);
+  });
+
+  it('Teste da Função deleteProducts, id existente', async function () {
+    sinon.stub(productsModel, 'getAll').resolves(listAllProductsMock);
+    sinon.stub(productsModel, 'deleteProducts').resolves();
+    
+    const result = await productsService.deleteProducts(1);
+
+    expect(result).to.be.deep.equal(true);
   });
 });

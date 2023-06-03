@@ -17,4 +17,12 @@ const registerProductMock = {
   id: 4,
   name: 'Alice',
 };
-module.exports = { listAllProductsMock, registerProductMock };
+
+const updatedProductMock = {
+  id: 1,
+  name: 'Alice',
+};
+const ProductNotFoundMock = { message: 'Product not found' };
+module.exports = {
+  listAllProductsMock, registerProductMock, updatedProductMock, ProductNotFoundMock,
+};

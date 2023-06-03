@@ -7,7 +7,11 @@ chai.use(sinonChai);
 const { expect } = chai;
 const productsService = require('../../../src/services/productsService');
 const productsController = require('../../../src/controllers/productsController');
-const { listAllProductsMock, registerProductMock } = require('../mocks/productsMock');
+const {
+  listAllProductsMock,
+  registerProductMock,
+  updatedProductMock, 
+  ProductNotFoundMock } = require('../mocks/productsMock');
 
 describe('Testes da camada controller do products', function () {
   const req = {};
@@ -36,7 +40,7 @@ describe('Testes da camada controller do products', function () {
     await productsController.getById(req, res);
 
     expect(res.status).to.be.calledWith(404);
-    expect(res.json).to.be.calledWithExactly({ message: 'Product not found' });
+    expect(res.json).to.be.calledWithExactly(ProductNotFoundMock);
   });
   
   it('Teste da Função getById, Id existente', async function () {
@@ -57,5 +61,51 @@ describe('Testes da camada controller do products', function () {
 
     expect(res.status).to.be.calledWith(201);
     expect(res.json).to.be.calledWithExactly(registerProductMock);
+  });
+
+  it('Teste da Função updateProducts, Id inexistente', async function () {
+    req.params = { id: 9999 };
+    req.body = { name: 'Alice' };
+
+    sinon.stub(productsService, 'updateProducts').resolves(ProductNotFoundMock);
+
+    await productsController.updateProducts(req, res);
+
+    expect(res.status).to.be.calledWith(404);
+    expect(res.json).to.be.calledWithExactly(ProductNotFoundMock);
+  });
+  
+  it('Teste da Função updateProducts, Id existente', async function () {
+    req.params = { id: 1 };
+    req.body = { name: 'Alice' };
+
+    sinon.stub(productsService, 'updateProducts').resolves(updatedProductMock);
+
+    await productsController.updateProducts(req, res);
+
+    expect(res.status).to.be.calledWith(200);
+    expect(res.json).to.be.calledWithExactly(updatedProductMock);
+  });
+
+  it('Teste da Função deleteProducts, Id inexistente', async function () {
+    req.params = { id: 9999 };
+
+    sinon.stub(productsService, 'deleteProducts').resolves(ProductNotFoundMock);
+
+    await productsController.deleteProducts(req, res);
+
+    expect(res.status).to.be.calledWith(404);
+    expect(res.json).to.be.calledWithExactly(ProductNotFoundMock);
+  });
+  
+  it('Teste da Função deleteProducts, Id existente', async function () {
+    req.params = { id: 1 };
+
+    sinon.stub(productsService, 'deleteProducts').resolves(true);
+
+    await productsController.deleteProducts(req, res);
+
+    expect(res.status).to.be.calledWith(204);
+    expect(res.json).to.be.calledWithExactly(true);
   });
 });
