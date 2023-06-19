@@ -22,7 +22,9 @@ const updatedProductMock = {
   id: 1,
   name: 'Alice',
 };
+
 const ProductNotFoundMock = { message: 'Product not found' };
+
 module.exports = {
   listAllProductsMock, registerProductMock, updatedProductMock, ProductNotFoundMock,
 };

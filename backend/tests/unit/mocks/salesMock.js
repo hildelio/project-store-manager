@@ -53,4 +53,13 @@ const salesId1Mock = [
     quantity: 10,
   },
 ];
-module.exports = { listAllSalesMock, registerSalesMock, error404RegisterSalesMock, salesId1Mock };
+
+const saleNotFoundMock = { message: 'Sale not found' };
+
+module.exports = {
+  listAllSalesMock,
+  registerSalesMock,
+  error404RegisterSalesMock,
+  salesId1Mock,
+  saleNotFoundMock,
+};

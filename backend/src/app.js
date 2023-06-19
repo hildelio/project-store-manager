@@ -1,9 +1,7 @@
 const express = require('express');
+const { productsRouter, salesRouter } = require('./routes'); 
 
 const app = express();
-
-const productsRouter = require('./routes/productsRoute'); 
-const salesRouter = require('./routes/salesRoute');
 
 app.use(express.json());
 
