@@ -1,5 +1,5 @@
 const salesService = require('../services/salesService');
-const { handleResponse } = require('../utils/handleResponse');
+const { handleResponse, handleResponseWithoutMessage } = require('../utils/handleResponse');
 
 const getAll = async (__req, res) => {
   const response = await salesService.getAll();
@@ -17,4 +17,10 @@ const registerSales = async (req, res) => {
   return handleResponse(res, response);
 };
 
-module.exports = { getAll, getById, registerSales };
+const deleteSale = async (req, res) => {
+  const { id } = req.params;
+  const response = await salesService.deleteSale(id);
+  return handleResponseWithoutMessage(res, response);
+};
+
+module.exports = { getAll, getById, registerSales, deleteSale };

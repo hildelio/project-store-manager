@@ -33,4 +33,12 @@ const registerSales = async (sales) => {
   return { type: HTTP_STATUS.CREATED, message: { id: newId, itemsSold } };
 };
 
-module.exports = { getAll, getById, registerSales }; 
+const deleteSale = async (id) => {
+  const affectedRows = await salesModel.deleteSale(id);
+  if (affectedRows < 1) {
+    return { type: HTTP_STATUS.NOT_FOUND, message: 'Sale not found' };
+  }
+  return { type: HTTP_STATUS.NO_CONTENT };
+};
+
+module.exports = { getAll, getById, registerSales, deleteSale }; 
